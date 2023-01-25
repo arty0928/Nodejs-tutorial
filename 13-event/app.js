@@ -16,3 +16,4 @@ emitter.emit('ellie',{message: 2});
 //emitter.removeAllListeners();
 emitter.removeListener('ellie',callback1);
 emitter.emit('ellie',{message: 3});
+
