@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import fsAsync from 'fs/promises';
-import 'express-async-errors';
+
 
 const app = express();
 
@@ -76,16 +76,21 @@ app.get('/file1', (req,res) => {
 });
 
 //promise
-app.get('/file2', async (req,res) => {
-    return fsAsync
+app.get('/file2', (req,res) => {
+    fsAsync
     .readFile('/file2.txt')
-    .then((data) => res.send(data));
+    .then((data) => res.send(data))
+    .catch(error => res.sendStatus(404)); 
 });
 
 //비동기적이면서 동기적으로 보이게
-app.get('/file3', async  function (req,res) {
+app.get('/file2', async  function (req,res) {
+    try{
         const data = await fsAsync.readFile('/file2.txt');
         res.send(data);
+    }catch(error){
+        res.sendStatus(404);
+    }
 });
 
 app.use((error, req,res, next) =>{
